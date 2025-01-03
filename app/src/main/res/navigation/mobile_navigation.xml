@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.sample.criminalintent.MainFragment"
-        android:label="fragment_main"
+        android:name="com.sample.criminalintent.ui.view.MainFragment"
+        android:label="Intent list"
         tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_mainFragment_to_intentFragment"
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/intentFragment"
-        android:name="com.sample.criminalintent.ItemIntentFragment"
-        android:label="fragment_intent"
+        android:name="com.sample.criminalintent.ui.view.ItemIntentFragment"
+        android:label="Intent card"
         tools:layout="@layout/fragment_intent" />
 </navigation>

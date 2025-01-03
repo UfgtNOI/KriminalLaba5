@@ -7,7 +7,7 @@
 
         <variable
             name="intent"
-            type="com.sample.criminalintent.Intent" />
+            type="com.sample.criminalintent.model.Intent" />
 
         <variable
             name="listener"
