@@ -2,6 +2,12 @@ package com.sample.criminalintent
 
 import android.app.Application
 import androidx.room.Room
+import com.sample.criminalintent.data.IntentDao
+import com.sample.criminalintent.data.IntentDatabase
+import com.sample.criminalintent.ui.viewmodel.IntentViewModel
+import com.sample.criminalintent.usecase.GetIntentsFromDbUseCase
+import com.sample.criminalintent.usecase.RemoveIntentsFromDbUseCase
+import com.sample.criminalintent.usecase.SaveIntentsToDbUseCase
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.android.x.androidXModule

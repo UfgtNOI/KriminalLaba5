@@ -1,5 +1,7 @@
 package com.sample.criminalintent
 
+import com.sample.criminalintent.data.IntentEntity
+
 class IntentRepositoryImpl(
     private val localDataSource: IntentLocalDataSource
 ): IntentRepository {
