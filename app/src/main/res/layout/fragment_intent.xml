@@ -15,67 +15,47 @@
     tools:context=".ui.view.ItemIntentFragment">
 
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/IntentPhoto"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:scaleType="fitXY"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/DescriptionText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/TitleText"
-        tools:src="@tools:sample/avatars" />
-
     <EditText
         android:id="@+id/TitleText"
-        android:text="@={viewModel.title}"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:contentDescription="Title"
         android:ems="10"
         android:hint="Title"
         android:inputType="text"
+        android:text="@={viewModel.title}"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/DescriptionText"
-        android:text="@={viewModel.description}"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:contentDescription="Description"
         android:ems="10"
         android:hint="Description"
         android:inputType="text"
+        android:text="@={viewModel.description}"
         app:layout_constraintEnd_toEndOf="@+id/TitleText"
+        app:layout_constraintStart_toStartOf="@+id/TitleText"
         app:layout_constraintTop_toBottomOf="@+id/TitleText" />
 
 
     <CheckBox
         android:id="@+id/SolvedCheckBox"
-        android:checked="@={viewModel.isSolved()}"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:checked="@={viewModel.isSolved()}"
         android:text="Intent Solved"
         app:layout_constraintEnd_toEndOf="@+id/DescriptionText"
         app:layout_constraintStart_toStartOf="@+id/DescriptionText"
-        app:layout_constraintTop_toBottomOf="@+id/IntentPhoto" />
-
-    <Button
-        android:id="@+id/SetPhotoButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="Set Photo"
-        app:layout_constraintBottom_toBottomOf="@+id/SolvedCheckBox"
-        app:layout_constraintEnd_toEndOf="@+id/IntentPhoto"
-        app:layout_constraintStart_toStartOf="@+id/IntentPhoto"
-        app:layout_constraintTop_toTopOf="@+id/SolvedCheckBox" />
+        app:layout_constraintTop_toBottomOf="@+id/DescriptionText" />
 
     <DatePicker
         android:id="@+id/datePicker"
@@ -84,14 +64,14 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="32dp"
         android:backgroundTint="@color/red_500"
-        android:headerBackground="@color/red_500"
-        android:year="@={viewModel.year}"
-        android:month="@={viewModel.month}"
         android:day="@={viewModel.day}"
+        android:headerBackground="@color/red_500"
+        android:month="@={viewModel.month}"
+        android:year="@={viewModel.year}"
         app:layout_constraintBottom_toTopOf="@+id/SaveButton"
         app:layout_constraintEnd_toEndOf="@+id/DescriptionText"
-        app:layout_constraintStart_toStartOf="@+id/IntentPhoto"
-        app:layout_constraintTop_toBottomOf="@+id/SetPhotoButton" />
+        app:layout_constraintStart_toStartOf="@+id/TitleText"
+        app:layout_constraintTop_toBottomOf="@+id/SolvedCheckBox" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -106,6 +86,18 @@
         android:backgroundTint="@color/red_500"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/RemoveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/red_500"
+        android:layout_marginStart="16dp"
+        android:contentDescription="Remove Report"
+        android:onClick="@{viewModel.removeIntent}"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="@+id/SaveButton"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

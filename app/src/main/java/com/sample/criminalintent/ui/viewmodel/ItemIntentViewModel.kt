@@ -1,8 +1,17 @@
 package com.sample.criminalintent.ui.viewmodel
 
+import android.Manifest
+import android.content.Context
+import android.content.DialogInterface
+import android.content.pm.PackageManager
+import android.graphics.Camera
 import android.util.Log
 import android.view.View
+import android.widget.DatePicker
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,8 +22,10 @@ import com.sample.criminalintent.usecase.SaveIntentsToDbUseCase
 import com.sample.criminalintent.data.IntentEntity
 import com.sample.criminalintent.usecase.GetIntentByIdFromDbUseCase
 import com.sample.criminalintent.usecase.GetIntentsFromDbUseCase
+import com.sample.criminalintent.usecase.RemoveIntentsFromDbUseCase
 import com.sample.criminalintent.usecase.UpdateIntentsInDbUseCase
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import java.util.Date
 import java.util.GregorianCalendar
 
@@ -22,11 +33,12 @@ class ItemIntentViewModel(
     private val saveIntentsToDbUseCase: SaveIntentsToDbUseCase,
     private val updateIntentsInDbUseCase: UpdateIntentsInDbUseCase,
     private val getIntentByIdFromDbUseCase: GetIntentByIdFromDbUseCase,
+    private val removeIntentsFromDbUseCase: RemoveIntentsFromDbUseCase,
     private val intentId: Int? = null
 ) : ViewModel() {
     var title = MutableLiveData("")
     var description = MutableLiveData("")
-    var isSolved: ObservableBoolean = ObservableBoolean(false)
+    var isSolved:MutableLiveData<Boolean> = MutableLiveData(false)
     var year: MutableLiveData<Int?> = MutableLiveData()
     var month: MutableLiveData<Int?> = MutableLiveData()
     var day: MutableLiveData<Int?> = MutableLiveData()
@@ -39,21 +51,30 @@ class ItemIntentViewModel(
 
                 title.value = intentEntity!!.title!!
                 description.value = intentEntity!!.description!!
-                isSolved.set(intentEntity!!.isDone)
-                val date = Date(intentEntity!!.date!!)
-                year.value = date.year
-                month.value = date.month
-                day.value = date.day
+                isSolved.value = intentEntity!!.isDone
+                val date = GregorianCalendar()
+                date.timeInMillis = intentEntity!!.date!!
+                year.value = date.get(Calendar.YEAR)
+                month.value = date.get(Calendar.MONTH)
+                day.value = date.get(Calendar.DAY_OF_MONTH)
 
             }
+        }else{
+            val date = GregorianCalendar()
+            date.time = Date()
+            year.value = date.get(Calendar.YEAR)
+            month.value = date.get(Calendar.MONTH)
+            day.value = date.get(Calendar.DAY_OF_MONTH)
         }
     }
+
+
 
     fun saveIntent(view: View){
         val date = GregorianCalendar(year.value!!, month.value!!, day.value!!)
         val title = this.title
         val description = this.description
-        val isSolved = this.isSolved.get()
+        val isSolved = this.isSolved
         val intentEntity = this.intentEntity;
         viewModelScope.launch {
             if(intentEntity == null){
@@ -62,7 +83,7 @@ class ItemIntentViewModel(
                         IntentEntity(
                             title = title.value,
                             description = description.value,
-                            isDone = isSolved,
+                            isDone = isSolved.value!!,
                             date = date.timeInMillis,
                             photo = ByteArray(0)
                         )
@@ -71,7 +92,7 @@ class ItemIntentViewModel(
             }else{
                 intentEntity.title = title.value
                 intentEntity.description = description.value
-                intentEntity.isDone = isSolved
+                intentEntity.isDone = isSolved.value!!
                 intentEntity.date = date.timeInMillis
                 intentEntity.photo = ByteArray(0)
                 updateIntentsInDbUseCase.invoke(
@@ -85,4 +106,21 @@ class ItemIntentViewModel(
         view.findNavController().navigateUp()
     }
 
+    fun removeIntent(view: View){
+        val dialogBuilder = AlertDialog.Builder(view.context)
+        dialogBuilder.setMessage("Are you sure to remove intent?")
+        dialogBuilder.setTitle("Attention")
+        dialogBuilder.setPositiveButton("Remove") { _, _ -> removeInternal(view) }
+        dialogBuilder.setNegativeButton("Cancel") { _, _ -> }
+
+        dialogBuilder.create().show()
+    }
+
+    private fun removeInternal(view: View){
+        viewModelScope.launch {
+            removeIntentsFromDbUseCase.invoke(listOf(intentEntity!!))
+            Toast.makeText(view.context, "Removed", Toast.LENGTH_SHORT).show()
+            view.findNavController().navigateUp()
+        }
+    }
 }

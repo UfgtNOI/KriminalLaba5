@@ -1,14 +1,25 @@
 package com.sample.criminalintent.ui.view
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.sample.criminalintent.usecase.SaveIntentsToDbUseCase
 import com.sample.criminalintent.databinding.FragmentIntentBinding
 import com.sample.criminalintent.ui.viewmodel.ItemIntentViewModel
 import com.sample.criminalintent.usecase.GetIntentByIdFromDbUseCase
+import com.sample.criminalintent.usecase.RemoveIntentsFromDbUseCase
 import com.sample.criminalintent.usecase.UpdateIntentsInDbUseCase
 import org.kodein.di.DIAware
 import org.kodein.di.android.x.closestDI
@@ -24,6 +35,7 @@ class ItemIntentFragment : Fragment(), DIAware {
     private val saveIntentsToDbUseCase : SaveIntentsToDbUseCase by instance()
     private val updateIntentsInDbUseCase: UpdateIntentsInDbUseCase by instance()
     private val getIntentByIdFromDbUseCase: GetIntentByIdFromDbUseCase by instance()
+    private val removeIntentsFromDbUseCase: RemoveIntentsFromDbUseCase by instance()
     private lateinit var viewModel: ItemIntentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,9 +53,12 @@ class ItemIntentFragment : Fragment(), DIAware {
         arguments?.let {
             intentId = it.getInt(ARG_INTENT_ID)
         }
-        viewModel = ItemIntentViewModel(saveIntentsToDbUseCase, updateIntentsInDbUseCase, getIntentByIdFromDbUseCase, intentId)
+
+
+        viewModel = ItemIntentViewModel(saveIntentsToDbUseCase, updateIntentsInDbUseCase, getIntentByIdFromDbUseCase, removeIntentsFromDbUseCase,  intentId)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        binding.RemoveButton.isVisible = intentId != null
 
         return root
     }
