@@ -62,7 +62,7 @@
                 app:layout_constraintStart_toStartOf="@+id/text_view_name"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_name"
                 app:setDateTime="@{intent.date}"
-                tools:text="1994" />
+                tools:text="10.12.1994" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

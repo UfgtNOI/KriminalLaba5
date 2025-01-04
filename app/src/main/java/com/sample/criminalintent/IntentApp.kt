@@ -5,7 +5,6 @@ import androidx.room.Room
 import com.sample.criminalintent.data.IntentDao
 import com.sample.criminalintent.data.IntentDatabase
 import com.sample.criminalintent.ui.viewmodel.IntentViewModel
-import com.sample.criminalintent.ui.viewmodel.ItemIntentViewModel
 import com.sample.criminalintent.usecase.GetIntentByIdFromDbUseCase
 import com.sample.criminalintent.usecase.GetIntentsFromDbUseCase
 import com.sample.criminalintent.usecase.RemoveIntentsFromDbUseCase
@@ -16,7 +15,6 @@ import org.kodein.di.DIAware
 import org.kodein.di.android.x.androidXModule
 import org.kodein.di.bind
 import org.kodein.di.instance
-import org.kodein.di.provider
 import org.kodein.di.singleton
 
 class IntentApp : Application(), DIAware {

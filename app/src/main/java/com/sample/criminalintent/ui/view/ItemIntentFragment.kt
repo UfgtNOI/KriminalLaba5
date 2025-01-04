@@ -1,18 +1,9 @@
 package com.sample.criminalintent.ui.view
 
-import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.sample.criminalintent.usecase.SaveIntentsToDbUseCase
@@ -38,23 +29,17 @@ class ItemIntentFragment : Fragment(), DIAware {
     private val removeIntentsFromDbUseCase: RemoveIntentsFromDbUseCase by instance()
     private lateinit var viewModel: ItemIntentViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentIntentBinding.inflate(inflater, container, false)
-        val root = binding.root;
+        val root = binding.root
 
         arguments?.let {
             intentId = it.getInt(ARG_INTENT_ID)
         }
-
-
         viewModel = ItemIntentViewModel(saveIntentsToDbUseCase, updateIntentsInDbUseCase, getIntentByIdFromDbUseCase, removeIntentsFromDbUseCase,  intentId)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this

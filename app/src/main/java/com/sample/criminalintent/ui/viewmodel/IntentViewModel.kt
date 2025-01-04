@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sample.criminalintent.usecase.GetIntentsFromDbUseCase
 import com.sample.criminalintent.model.Intent
-import com.sample.criminalintent.usecase.RemoveIntentsFromDbUseCase
-import com.sample.criminalintent.usecase.SaveIntentsToDbUseCase
 import kotlinx.coroutines.launch
 
 class IntentViewModel (
@@ -25,7 +23,6 @@ class IntentViewModel (
                     title = it.title,
                     description = it.description,
                     isDone = it.isDone,
-                    photo = it.photo,
                     date = it.date
                 )
             }.toMutableList()
