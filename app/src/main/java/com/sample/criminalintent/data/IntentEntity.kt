@@ -6,12 +6,12 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "intents")
 data class IntentEntity(
-    val title: String?,
-    val description: String?,
-    val date: Long?,
-    val isDone: Boolean,
+    var title: String?,
+    var description: String?,
+    var date: Long?,
+    var isDone: Boolean,
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    val photo: ByteArray
+    var photo: ByteArray
 ){
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

@@ -11,9 +11,7 @@ import com.sample.criminalintent.usecase.SaveIntentsToDbUseCase
 import kotlinx.coroutines.launch
 
 class IntentViewModel (
-    private val getIntentsFromDbUseCase: GetIntentsFromDbUseCase,
-    private val saveIntentsToDbUseCase: SaveIntentsToDbUseCase,
-    private val removeIntentsFromDbUseCase: RemoveIntentsFromDbUseCase,
+    private val getIntentsFromDbUseCase: GetIntentsFromDbUseCase
 ): ViewModel() {
 
     private val _intents = MutableLiveData<MutableList<Intent>>()

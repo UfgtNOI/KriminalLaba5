@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import com.sample.criminalintent.usecase.SaveIntentsToDbUseCase
 import com.sample.criminalintent.databinding.FragmentIntentBinding
 import com.sample.criminalintent.ui.viewmodel.ItemIntentViewModel
+import com.sample.criminalintent.usecase.GetIntentByIdFromDbUseCase
+import com.sample.criminalintent.usecase.UpdateIntentsInDbUseCase
 import org.kodein.di.DIAware
 import org.kodein.di.android.x.closestDI
 import org.kodein.di.instance
 
-private const val ARG_INTENT_ID = "intentId"
+const val ARG_INTENT_ID = "intentId"
 
 class ItemIntentFragment : Fragment(), DIAware {
     override val di by closestDI()
@@ -20,12 +22,13 @@ class ItemIntentFragment : Fragment(), DIAware {
     private lateinit var binding: FragmentIntentBinding
 
     private val saveIntentsToDbUseCase : SaveIntentsToDbUseCase by instance()
+    private val updateIntentsInDbUseCase: UpdateIntentsInDbUseCase by instance()
+    private val getIntentByIdFromDbUseCase: GetIntentByIdFromDbUseCase by instance()
+    private lateinit var viewModel: ItemIntentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            intentId = it.getInt(ARG_INTENT_ID)
-        }
+
     }
 
     override fun onCreateView(
@@ -33,13 +36,17 @@ class ItemIntentFragment : Fragment(), DIAware {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentIntentBinding.inflate(inflater, container, false)
-
         val root = binding.root;
 
-        binding.viewModel = ItemIntentViewModel(saveIntentsToDbUseCase)
+        arguments?.let {
+            intentId = it.getInt(ARG_INTENT_ID)
+        }
+        viewModel = ItemIntentViewModel(saveIntentsToDbUseCase, updateIntentsInDbUseCase, getIntentByIdFromDbUseCase, intentId)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
         return root
     }
-
 
     companion object {
         @JvmStatic

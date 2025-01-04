@@ -14,6 +14,7 @@ import com.sample.criminalintent.model.Intent
 import com.google.android.material.imageview.ShapeableImageView
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.GregorianCalendar
 import java.util.Locale
 
 class IntentAdapter(private var intents: List<Intent>, private var intentListener: IntentListener) : ListAdapter<Intent, IntentAdapter.IntentViewHolder>(
