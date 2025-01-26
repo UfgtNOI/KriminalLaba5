@@ -5,5 +5,6 @@ data class Intent(
     val title : String?,
     val description : String?,
     val date : Long?,
-    val isDone : Boolean
+    val isDone : Boolean,
+    val photo : ByteArray
 )

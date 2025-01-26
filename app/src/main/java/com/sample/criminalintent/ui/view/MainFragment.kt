@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sample.criminalintent.model.Intent
@@ -13,6 +16,7 @@ import com.sample.criminalintent.IntentListener
 import com.sample.criminalintent.R
 import com.sample.criminalintent.databinding.FragmentMainBinding
 import com.sample.criminalintent.ui.viewmodel.IntentViewModel
+import com.sample.criminalintent.usecase.GetIntentsFromDbUseCase
 import org.kodein.di.DIAware
 import org.kodein.di.android.x.closestDI
 import org.kodein.di.instance
@@ -32,9 +36,9 @@ class MainFragment : Fragment(), DIAware, IntentListener {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.viewModel = viewModel
+        binding.viewModel = viewModel;
         intentAdapter = IntentAdapter(emptyList(), this)
-        binding.IntentRecycleView.adapter = intentAdapter
+        binding.IntentRecycleView.adapter = intentAdapter;
         binding.IntentRecycleView.layoutManager = LinearLayoutManager(context)
 
         viewModel.intents.observe(viewLifecycleOwner) { intents ->
@@ -54,7 +58,7 @@ class MainFragment : Fragment(), DIAware, IntentListener {
         findNavController().navigate(R.id.intentFragment)
     }
     override fun onIntentClicked(intent: Intent) {
-        val bundle = Bundle()
+        var bundle = Bundle()
         bundle.putInt(ARG_INTENT_ID, intent.id)
         findNavController().navigate(R.id.intentFragment, bundle)
     }

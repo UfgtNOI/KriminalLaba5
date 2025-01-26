@@ -1,8 +1,19 @@
 package com.sample.criminalintent.ui.viewmodel
 
+import android.Manifest
+import android.content.Context
+import android.content.DialogInterface
+import android.content.pm.PackageManager
+import android.graphics.Camera
+import android.util.Log
 import android.view.View
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +21,7 @@ import androidx.navigation.findNavController
 import com.sample.criminalintent.usecase.SaveIntentsToDbUseCase
 import com.sample.criminalintent.data.IntentEntity
 import com.sample.criminalintent.usecase.GetIntentByIdFromDbUseCase
+import com.sample.criminalintent.usecase.GetIntentsFromDbUseCase
 import com.sample.criminalintent.usecase.RemoveIntentsFromDbUseCase
 import com.sample.criminalintent.usecase.UpdateIntentsInDbUseCase
 import kotlinx.coroutines.launch
@@ -63,7 +75,7 @@ class ItemIntentViewModel(
         val title = this.title
         val description = this.description
         val isSolved = this.isSolved
-        val intentEntity = this.intentEntity
+        val intentEntity = this.intentEntity;
         viewModelScope.launch {
             if(intentEntity == null){
                 saveIntentsToDbUseCase.invoke(
@@ -72,7 +84,8 @@ class ItemIntentViewModel(
                             title = title.value,
                             description = description.value,
                             isDone = isSolved.value!!,
-                            date = date.timeInMillis
+                            date = date.timeInMillis,
+                            photo = ByteArray(0)
                         )
                     )
                 )
@@ -81,6 +94,7 @@ class ItemIntentViewModel(
                 intentEntity.description = description.value
                 intentEntity.isDone = isSolved.value!!
                 intentEntity.date = date.timeInMillis
+                intentEntity.photo = ByteArray(0)
                 updateIntentsInDbUseCase.invoke(
                     listOf(
                         intentEntity
